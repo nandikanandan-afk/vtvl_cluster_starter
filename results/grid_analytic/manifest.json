@@ -1,0 +1,100 @@
+{
+  "model": "Generic F9-class constant-total-thrust conceptual trade, v0.1",
+  "fidelity": "1D terminal descent + two-stage ideal-delta-v payload proxy",
+  "vehicle": {
+    "total_sl_thrust_n": 7607000.0,
+    "diameter_m": 3.7,
+    "reference_engine_count": 9,
+    "liftoff_mass_cap_kg": 550000.0,
+    "first_stage_propellant_capacity_kg": 410000.0,
+    "nonengine_booster_dry_kg": 20000.0,
+    "reference_engine_mass_kg": 470.0,
+    "engine_mass_exponent": 0.85,
+    "integration_mass_per_engine_kg": 35.0,
+    "ascent_isp_s": 300.0,
+    "landing_isp_s": 282.0,
+    "upper_stage_dry_kg": 4500.0,
+    "upper_stage_propellant_kg": 105000.0,
+    "upper_stage_isp_s": 348.0
+  },
+  "mission": {
+    "terminal_entry_altitude_m": 2000.0,
+    "touchdown_velocity_m_s": -0.5,
+    "required_ideal_delta_v_m_s": 9400.0,
+    "other_recovery_propellant_kg": 8000.0,
+    "landing_margin_fraction": 0.1,
+    "trapped_residual_kg": 300.0,
+    "max_landing_propellant_kg": 25000.0,
+    "min_landing_burn_s": 2.0,
+    "max_landing_burn_s": 120.0,
+    "max_landing_proper_accel_g": 5.0,
+    "max_terminal_dynamic_pressure_pa": 80000.0,
+    "min_liftoff_twr": 1.2,
+    "allowed_landing_engine_counts": [
+      1,
+      3
+    ],
+    "sea_level_density_kg_m3": 1.225,
+    "density_scale_height_m": 8500.0,
+    "landing_drag_coefficient": 0.8
+  },
+  "numerics": {
+    "physics": "analytic",
+    "multistarts": 8,
+    "rtol": 2e-07,
+    "atol": 1e-08,
+    "max_step_s": 1.0,
+    "max_iterations": 160,
+    "optimizer_ftol": 1e-10,
+    "path_samples": 25,
+    "altitude_tolerance_m": 0.05,
+    "velocity_tolerance_m_s": 0.02,
+    "constraint_tolerance": 1e-05
+  },
+  "grid": {
+    "engine_counts": [
+      1,
+      3,
+      5,
+      7,
+      9,
+      11,
+      13,
+      15,
+      17,
+      19
+    ],
+    "fixed_engine_mass_fractions": [
+      0.1,
+      0.25,
+      0.4
+    ],
+    "minimum_throttles": [
+      0.2,
+      0.4,
+      0.6
+    ],
+    "terminal_entry_speeds_m_s": [
+      150.0,
+      200.0,
+      250.0
+    ]
+  },
+  "case_count": 270,
+  "feasible_count": 234,
+  "elapsed_seconds": 17.310089091999544,
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "source_sha256": {
+    "run_study.py": "29702d04f2013e54ebccaf69f7e9c6fcac2be4b0ddc3f0cbd2ceded77a5cf8ad",
+    "tests/test_model.py": "c63f8c20a784a53da020808d12019c02ba47486727e85a817a8646670c3f5554",
+    "verify_results.py": "a0123792182d22fec0db8c44057f3a312903a91c317207e0c73d7157646d69f0",
+    "vtvl/__init__.py": "a2d07efb92f2e0ec718db98a9458244a00fda0c3b52aeb8e48b5dd1f0add37bd",
+    "vtvl/config.py": "9e4134c49d2108f8d24478de53db0fbd36722e900cb6a03ce2277ada185f27e1",
+    "vtvl/engines.py": "e928c60dbe2b845726b7187ab005ddaaba3a23818388680788d14bda41e232ee",
+    "vtvl/landing.py": "ee1931fe34e70c02f0f0c56a64da8a7cc3ed4a818a55aad76741349ca9227bfa",
+    "vtvl/performance.py": "34987811d562c41931e0eab1c433d26a0e6b9636aaffeee9044ea099e9652459",
+    "vtvl/study.py": "501be8e9d17619289893217e116eb226405535e2babf79ccbe58b468fa75e2df"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "checked_cases": 9,
+  "max_abs_final_altitude_error_m": 2.7746201879450373e-07,
+  "max_abs_final_velocity_error_m_s": 1.7585578659939927e-08,
+  "ground_events_found": 9,
+  "max_abs_event_touchdown_velocity_error_m_s": 1.9084059246665674e-05,
+  "interpretation": "Numerical consistency only; not flight-data validation or global optimality."
+}

@@ -1,0 +1,18 @@
+test_cannot_hover_does_not_mean_cannot_land (test_model.TestLanding.test_cannot_hover_does_not_mean_cannot_land) ... ok
+test_closed_form_matches_independent_ode (test_model.TestLanding.test_closed_form_matches_independent_ode) ... ok
+test_drag_opposes_fall (test_model.TestLanding.test_drag_opposes_fall) ... ok
+test_drag_solution_independent_tight_reintegration (test_model.TestLanding.test_drag_solution_independent_tight_reintegration) ... ok
+test_fuel_and_margin_mass_balance (test_model.TestLanding.test_fuel_and_margin_mass_balance) ... ok
+test_one_engine_high_minimum_throttle_not_silently_accepted (test_model.TestLanding.test_one_engine_high_minimum_throttle_not_silently_accepted) ... ok
+test_throttle_feasible_set_monotonicity (test_model.TestLanding.test_throttle_feasible_set_monotonicity) ... ok
+test_zero_thrust_ballistic_limit (test_model.TestLanding.test_zero_thrust_ballistic_limit) ... ok
+test_invalid_design (test_model.TestMassAndPerformance.test_invalid_design) ... ok
+test_linear_scaling_zero_overhead_total_mass_invariant (test_model.TestMassAndPerformance.test_linear_scaling_zero_overhead_total_mass_invariant) ... ok
+test_mass_and_delta_v_closure (test_model.TestMassAndPerformance.test_mass_and_delta_v_closure) ... ok
+test_reference_mass_anchor_independent_of_phi (test_model.TestMassAndPerformance.test_reference_mass_anchor_independent_of_phi) ... ok
+test_reserve_reduces_payload (test_model.TestMassAndPerformance.test_reserve_reduces_payload) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.312s
+
+OK
