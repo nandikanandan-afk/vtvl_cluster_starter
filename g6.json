@@ -1,0 +1,17 @@
+{
+  "vehicle": {
+    "engine_mass_exponent": 0.85,
+    "integration_mass_per_engine_kg": 35.0
+  },
+  "mission": {
+    "other_recovery_propellant_kg": 8000.0,
+    "max_landing_proper_accel_g": 6.0,
+    "landing_margin_fraction": 0.10,
+    "landing_drag_coefficient": 0.8
+  },
+  "numerics": {
+    "rtol": 2e-7,
+    "atol": 1e-8,
+    "max_step_s": 1.0
+  }
+}
