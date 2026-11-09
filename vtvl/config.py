@@ -28,7 +28,10 @@ class Numerics:
     fixed_point_tol_R: float = 1.0      # kg  (prompt: |dR| < 1 kg)
     fixed_point_tol_L: float = 0.1      # kg
     fixed_point_max_iter: int = 40
-    landing_stop_speed: float = 0.05    # m/s; burn integration stops here, root puts it at h = 0
+    # m/s; the burn integration stops when the vertical velocity rises to -landing_stop_speed and
+    # the root solve puts that point at h = 0 (touchdown speed). Must exceed the RK4 chatter level
+    # (a_max_land - g)*dt_landing/2 (checked in landing._burn) and be <= v_td.
+    landing_stop_speed: float = 1.0
     landing_ignition_tol: float = 1e-3  # m on the final altitude
     landing_u_scan: int = 11            # points in the fuel-vs-throttle verification scan
     entry_q_tol: float = 1.0            # Pa on the post-burn peak dynamic pressure
@@ -95,6 +98,7 @@ class Vehicle:
     q_max: float                  # Pa
     a_max_asc: float              # m/s^2 (non-gravitational, axial)
     a_max_land: float             # m/s^2 (non-gravitational, thrust+drag over mass)
+    land_cap_basis: str           # 'thrust_plus_drag' (database) or 'thrust_only'
     h_eb: float                   # m
     q_entry_max: float | None     # Pa (calibrated)
     v_td: float                   # m/s
@@ -149,6 +153,7 @@ def make_vehicle(P: ParameterSet, n_engines: int, mode: str = 'reusable', mass_m
         q_max=P.v('mission.max_dynamic_pressure', 'Pa'),
         a_max_asc=P.v('mission.ascent_axial_accel_cap_g', 'g0') * g0,
         a_max_land=P.v('recovery.landing_max_accel_g', 'g0 (non-gravitational, thrust+drag over mass)') * g0,
+        land_cap_basis=P.v('recovery.landing_accel_cap_basis', '-'),
         h_eb=P.v('recovery.entry_burn_start_altitude', 'm'),
         q_entry_max=q_entry,
         v_td=P.v('recovery.touchdown_speed_max', 'm/s'),

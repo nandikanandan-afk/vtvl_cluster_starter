@@ -57,19 +57,24 @@ def _crossed(g0: float, g1: float, direction: int) -> bool:
 
 
 def locate(f: Callable, t: float, y: Sequence[float], h: float, g: Callable, ga: float, gb: float,
-           tol_s: float = 1e-10, max_iter: int = 60) -> tuple[float, list]:
-    """Find s in (0, h] with g(t+s, RK4(t, y, s)) = 0 given g(t,y)=ga and g at s=h equal gb."""
+           tol_s: float = 1e-10, max_iter: int = 100) -> tuple[float, list]:
+    """Find s in (0, h] with g(t+s, RK4(t, y, s)) = 0 given g(t,y)=ga and g at s=h equal gb.
+
+    Returns the POST-crossing end of the final bracket (sign of gb), so a discontinuous
+    (step-function) event is never re-triggered from the pre-crossing side."""
     a, b = 0.0, h
     fa, fb = ga, gb
     side = 0
     yb = None
     for _ in range(max_iter):
+        if b - a < tol_s:
+            break
         s = b - fb * (b - a) / (fb - fa) if fb != fa else 0.5 * (a + b)
         if not (a < s < b):
             s = 0.5 * (a + b)
         ys = rk4_step(f, t, y, s)
         gs = g(t + s, ys)
-        if gs == 0.0 or (b - a) < tol_s:
+        if gs == 0.0:
             return s, ys
         if (gs > 0) == (fb > 0):
             b, fb, yb = s, gs, ys
@@ -81,10 +86,7 @@ def locate(f: Callable, t: float, y: Sequence[float], h: float, g: Callable, ga:
             if side == +1:
                 fb *= 0.5
             side = +1
-        if abs(b - a) < tol_s:
-            break
-    s = b
-    return s, (yb if yb is not None else rk4_step(f, t, y, s))
+    return b, (yb if yb is not None else rk4_step(f, t, y, b))
 
 
 def integrate(f: Callable, t0: float, y0: Sequence[float], dt: float, t_end: float,

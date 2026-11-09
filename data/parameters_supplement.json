@@ -41,6 +41,19 @@
       "notes": "Value is replaced by the calibrated value in every production run; see results/*/manifest.json."
     }
   },
+  "recovery": {
+    "landing_accel_cap_basis": {
+      "symbol": "-",
+      "value": "thrust_plus_drag",
+      "units": "-",
+      "source": "parameters_baseline.json recovery.landing_max_accel_g.units ('non-gravitational, thrust+drag over mass')",
+      "source_type": "assumption",
+      "confidence": "medium",
+      "range": null,
+      "used_for": "Which acceleration the landing cap a_max_land limits: 'thrust_plus_drag' = |T + D|/m (database definition, BASELINE) or 'thrust_only' = T/m (DLR-style T/W reading of S17; alternative for the team to decide).",
+      "notes": "Switch exists because the database definition makes N = 9 unable to land (see docs/ASSUMPTIONS.md A-CAP)."
+    }
+  },
   "mission": {
     "launch_pad_altitude": {
       "symbol": "h_pad",
