@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "name": "Supplement to parameters_baseline.json: values the database states only in prose, plus model idealizations",
+    "version": "2026-11-09",
+    "policy": "Every entry here is an ASSUMPTION or is quoted from a used_for/notes/range field of parameters_baseline.json. Each is listed in docs/ASSUMPTIONS.md. Nothing here is published data."
+  },
+  "upper_stage": {
+    "fairing_jettison_mass": {
+      "symbol": "m_fair",
+      "value": 1900.0,
+      "units": "kg",
+      "source": "parameters_baseline.json upper_stage.payload_bay_overhead.used_for ('assume 1,900 kg of the 2,400')",
+      "source_type": "assumption",
+      "confidence": "low",
+      "range": [1200.0, 2100.0],
+      "used_for": "Part of m_bay dropped at fairing jettison; the remainder (m_bay - m_fair = 500 kg at baseline) goes to orbit.",
+      "notes": "Range = JSON m_bay range (1,700-2,600 kg) minus the 500 kg retained part. Not swept in this study."
+    },
+    "fairing_jettison_dynamic_pressure": {
+      "symbol": "q_fair",
+      "value": 10.0,
+      "units": "Pa",
+      "source": "parameters_baseline.json upper_stage.payload_bay_overhead.used_for ('when dynamic pressure falls below 10 Pa')",
+      "source_type": "assumption",
+      "confidence": "low",
+      "range": null,
+      "used_for": "Fairing is jettisoned at the first downward crossing of q = q_fair after liftoff.",
+      "notes": "Prescribed by the team's JSON; not swept."
+    }
+  },
+  "booster": {
+    "ascent_cd_scale": {
+      "symbol": "k_Cd",
+      "value": 1.0,
+      "units": "-",
+      "source": "parameters_baseline.json booster.ascent_drag_coefficient_table.range ('scale factor 0.8-1.2')",
+      "source_type": "assumption",
+      "confidence": "low",
+      "range": [0.8, 1.2],
+      "used_for": "Multiplies the ascent Cd(M) table. Calibration knob 1 (expendable N = 9 payload anchor).",
+      "notes": "Value is replaced by the calibrated value in every production run; see results/*/manifest.json."
+    }
+  },
+  "mission": {
+    "launch_pad_altitude": {
+      "symbol": "h_pad",
+      "value": 0.0,
+      "units": "m",
+      "source": "assumption (pad at sea level; SLC-40 pad elevation is not in the database)",
+      "source_type": "assumption",
+      "confidence": "medium",
+      "range": null,
+      "used_for": "Initial altitude of the ascent and the landing (drone-ship deck) altitude.",
+      "notes": "Drone-ship deck height and pad elevation (a few metres) are neglected."
+    }
+  }
+}
