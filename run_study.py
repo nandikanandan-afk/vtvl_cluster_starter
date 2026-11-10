@@ -24,12 +24,14 @@ NEAR_BAND = 0.01   # counts within 1 % of the best payload
 
 def frozen_overrides(calib_dir: Path, basis: str) -> dict:
     cal = json.loads((calib_dir / 'calibration.json').read_text())
+    man = json.loads((calib_dir / 'manifest.json').read_text())
     q = cal['step_B'][basis]['frozen_value']
     if q is None:
         raise SystemExit(f'No frozen q_entry_max for basis {basis!r} in {calib_dir}')
     return {'booster.ascent_cd_scale': cal['step_A']['frozen_value'],
             'recovery.entry_severity_limit_peak_q': q,
-            'recovery.landing_accel_cap_basis': basis}
+            'recovery.landing_accel_cap_basis': basis,
+            'recovery.entry_q_window': man.get('entry_q_window', 'after_burn')}
 
 
 def sensitivity_cases(base: dict) -> list[tuple[str, dict, dict]]:
@@ -57,12 +59,13 @@ def sensitivity_cases(base: dict) -> list[tuple[str, dict, dict]]:
 
 
 def map_cases(base: dict) -> list[tuple[str, dict, dict]]:
+    """REDUCED grid (runtime budget): u_min in {0.40, 0.57, 0.70} x beta in {0.8, 1.0} and x phi in {0, 0.4}."""
     out = []
-    for u in (0.40, 0.50, 0.57, 0.65, 0.70):
-        for b in (0.8, 0.9, 1.0):
+    for u in (0.40, 0.57, 0.70):
+        for b in (0.8, 1.0):
             out.append((f'map_umin_beta:u_min={u:g},beta={b:g}',
                         {**base, 'engine.min_throttle_sl_thrust_fraction': u, 'engine.mass_scaling_exponent': b}, {}))
-        for p in (0.0, 0.07, 0.2, 0.4):
+        for p in (0.0, 0.4):
             out.append((f'map_umin_phi:u_min={u:g},phi={p:g}',
                         {**base, 'engine.min_throttle_sl_thrust_fraction': u, 'engine.fixed_mass_fraction': p}, {}))
     return out

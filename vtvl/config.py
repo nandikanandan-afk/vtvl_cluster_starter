@@ -99,6 +99,7 @@ class Vehicle:
     a_max_asc: float              # m/s^2 (non-gravitational, axial)
     a_max_land: float             # m/s^2 (non-gravitational, thrust+drag over mass)
     land_cap_basis: str           # 'thrust_plus_drag' (database) or 'thrust_only'
+    entry_q_window: str           # 'after_burn' (prompt wording) or 'burn_and_after'
     h_eb: float                   # m
     q_entry_max: float | None     # Pa (calibrated)
     v_td: float                   # m/s
@@ -154,6 +155,7 @@ def make_vehicle(P: ParameterSet, n_engines: int, mode: str = 'reusable', mass_m
         a_max_asc=P.v('mission.ascent_axial_accel_cap_g', 'g0') * g0,
         a_max_land=P.v('recovery.landing_max_accel_g', 'g0 (non-gravitational, thrust+drag over mass)') * g0,
         land_cap_basis=P.v('recovery.landing_accel_cap_basis', '-'),
+        entry_q_window=P.v('recovery.entry_q_window', '-'),
         h_eb=P.v('recovery.entry_burn_start_altitude', 'm'),
         q_entry_max=q_entry,
         v_td=P.v('recovery.touchdown_speed_max', 'm/s'),

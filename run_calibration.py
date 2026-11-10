@@ -25,11 +25,13 @@ BAND_REU = (17400.0, 18500.0)
 Q_TRIALS = [40000.0, 50000.0, 60000.0, 70000.0, 80000.0, 100000.0, 140000.0, 200000.0]
 BASES = ['thrust_plus_drag', 'thrust_only']
 COUNTS = list(range(1, 28, 2))
+WINDOW = ['after_burn']
 
 
 def secant_refine(args):
     """Illinois on L(q) - target between a bracketing pair of trial rows (runs in a worker)."""
-    basis, cd, (qa, La, ka), (qb, Lb, kb) = args
+    basis, cd, (qa, La, ka), (qb, Lb, kb), window = args
+    WINDOW[0] = window
     rows = []
     fa, fb = La - TARGET_REU, Lb - TARGET_REU
     a, b = qa, qb
@@ -38,7 +40,7 @@ def secant_refine(args):
     for _ in range(12):
         q = b - fb * (b - a) / (fb - fa)
         row = run_case(dict(overrides={'booster.ascent_cd_scale': cd, 'recovery.entry_severity_limit_peak_q': q,
-                                       'recovery.landing_accel_cap_basis': basis},
+                                       'recovery.landing_accel_cap_basis': basis, 'recovery.entry_q_window': WINDOW[0]},
                             n=9, mode='reusable', kick0=kick, tag=f'calib_reusable_{basis}_refine'))
         rows.append(row)
         if row['status'] != 'feasible':
@@ -64,8 +66,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--workers', type=int, default=8)
     ap.add_argument('--skip-preview', action='store_true')
+    ap.add_argument('--window', default='after_burn', choices=['after_burn', 'burn_and_after'])
     args = ap.parse_args()
-    out = Path('results') / (datetime.now().strftime('%Y%m%d_%H%M') + '_calibration_N9')
+    out = Path('results') / (datetime.now().strftime('%Y%m%d_%H%M') + f'_calibration_N9_{args.window}')
     out.mkdir(parents=True, exist_ok=True)
     t0 = time.perf_counter()
     P = load_parameters()
@@ -105,11 +108,12 @@ def main():
 
     # ---- Step B ---------------------------------------------------------------------------
     jobs = [dict(overrides={'booster.ascent_cd_scale': cd_star, 'recovery.entry_severity_limit_peak_q': q,
-                            'recovery.landing_accel_cap_basis': b},
+                            'recovery.landing_accel_cap_basis': b, 'recovery.entry_q_window': args.window},
                  n=9, mode='reusable', tag=f'calib_reusable_{b}_q{q:.0f}') for b in BASES for q in Q_TRIALS]
     rows_b = run_parallel(jobs, args.workers)
     print('Step B trials done', flush=True)
     refine_jobs = []
+    WINDOW[0] = args.window
     log['step_B'] = {}
     for b in BASES:
         tr = [(r['q_entry_max_Pa'], r['payload_kg'] if r['status'] == 'feasible' else math.nan,
@@ -118,7 +122,7 @@ def main():
         feas = [(q, L, k) for q, L, k, s in tr if math.isfinite(L)]
         for x, y in zip(feas, feas[1:]):
             if (x[1] - TARGET_REU) * (y[1] - TARGET_REU) <= 0:
-                refine_jobs.append((b, cd_star, x, y))
+                refine_jobs.append((b, cd_star, x, y, args.window))
                 break
     with ProcessPoolExecutor(max_workers=max(1, len(refine_jobs))) as ex:
         refined = list(ex.map(secant_refine, refine_jobs)) if refine_jobs else []
@@ -147,7 +151,7 @@ def main():
             if qb is None:
                 continue
             prev += [dict(overrides={'booster.ascent_cd_scale': cd_star, 'recovery.entry_severity_limit_peak_q': qb,
-                                     'recovery.landing_accel_cap_basis': b}, n=n, mode='reusable',
+                                     'recovery.landing_accel_cap_basis': b, 'recovery.entry_q_window': args.window}, n=n, mode='reusable',
                           tag=f'preview_{b}') for n in COUNTS]
         rows_d = run_parallel(prev, args.workers)
         write_csv(out / 'exploratory_preview_all_N.csv', rows_d)
@@ -158,7 +162,7 @@ def main():
     (out / 'calibration.json').write_text(json.dumps(log, indent=2, default=str) + '\n', encoding='utf-8')
     write_manifest(out, dict(purpose='N = 9 calibration protocol + exploratory preview',
                              anchors=dict(expendable=ANCHOR_EXP, reusable_target=TARGET_REU, reusable_band=BAND_REU),
-                             q_trials=Q_TRIALS, bases=BASES))
+                             q_trials=Q_TRIALS, bases=BASES, entry_q_window=args.window))
     print(f'done in {log["wall_time_s"]:.0f} s -> {out}', flush=True)
 
 

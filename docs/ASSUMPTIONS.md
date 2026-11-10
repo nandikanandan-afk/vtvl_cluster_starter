@@ -67,3 +67,17 @@ At most two knobs, each inside its JSON range, calibrated at N = 9 and then froz
 * **D2** Entry-burn acceleration cap (A-ENTRY-CAP).
 * **D3** Max-Q by steering only vs an identical-for-all-N throttle bucket (A-MAXQ).
 * **D4** What to do about the expendable-anchor mismatch (calibration.json, step A).
+
+## Decisions taken under deadline pressure (2026-11-09) - REVISIT
+
+The team asked for the sweeps to proceed before D1-D5 were individually resolved. Defaults taken:
+
+* **D1 -> `thrust_only` landing-cap basis (departure from the database definition).** With the database definition (thrust + drag)/m <= 3 g, N = 9 reusable calibration was erratic: feasible at q_entry_max = 60 and 100 kPa, `no_solution_found` at 40, 50, 70, 80, 140 and 200 kPa, and it never reached the 17.4-18.5 t band (`results/20261109_1754_calibration_N9_after_burn/calibration_reusable_cases.csv`). With `thrust_only` the calibration is clean (q_entry_max = 70,231.8 Pa gives 17,500 kg). All production results are therefore **the thrust-only variant** and must be labeled so. Unexplained: `thrust_only` returned `infeasible_proven` at 50 and 60 kPa but feasible at 40 and 70 kPa (non-monotone).
+* **D2 -> entry-burn cap = ascent cap (4 g).** Kept.
+* **D3 -> max-Q by steering only. FINDING: this materially affects the N ranking.** Expendable payload *rises* with N under the 35 kPa limit (23,579 kg at N = 3 to 23,730 kg at N = 27) although dry mass rises 2.3 t. With max-Q relaxed to 40 kPa (non-binding) it falls as expected (25,457 to 25,071 kg). A heavier stack climbs more slowly and needs less lofting to meet the limit, an effect of the same size as the engine-mass penalty. Hundreds-of-kg differences between N therefore mix engine mass with this steering-only max-Q artifact. A throttle bucket identical for all N is the recommended fix and is NOT implemented.
+* **D4 -> expendable anchor not reachable.** Best in-range Cd scale (0.8) gives 23,644 kg, +3.7 % vs 22,800 kg (tolerance 1 %). Range not stretched. Frozen at 0.8.
+* **D5 -> q_entry_max enforced after the entry burn only (`after_burn`).** The `burn_and_after` window was not run. Not resolved.
+* **N = 9 recovery checks:** reserve R = 40.3 t (outside the 15-35 t plausibility range); landing T/W at minimum throttle 1.58 (just below 1.6-1.8).
+* **Reduced sweep grid** (runtime): N in {3, 5, 7, 9, 13, 17, 21, 25}; maps over u_min {0.40, 0.57, 0.70} x beta {0.8, 1.0} and x phi {0, 0.4}.
+* **N = 23 (baseline):** `no_solution_found` - the kick optimizer could not get max-Q below 35,121 Pa (limit 35,000). An optimizer/tolerance artifact, not a proof; a bisection fallback and a larger budget did not fix it.
+* The exploratory all-N preview and the `burn_and_after` calibration were stopped early; `calibration.json` for the frozen run was assembled from the completed step A/B case files.

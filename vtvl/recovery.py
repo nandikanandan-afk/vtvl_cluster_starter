@@ -51,6 +51,7 @@ class EntryEval:
     h_qpeak: float = math.nan
     phases: list = field(default_factory=list)
     t_limit: float = math.nan   # longest burn the entry rule admits (if it ran out), s
+    q_burn_max: float = math.nan  # peak q during the entry burn itself, Pa
 
 
 @dataclass
@@ -72,6 +73,7 @@ class RecoveryResult:
     landing: LandingResult | None = None
     phases: list = field(default_factory=list)
     downrange_m: float = math.nan
+    q_peak_burn: float = math.nan
 
 
 def _select_entry_thrust(veh: Vehicle, p: float, m: float, d: float):
@@ -169,9 +171,8 @@ def run_entry(veh: Vehicle, earth: Earth, num: Numerics, t0: float, y0: list, t_
 
             slow = Event('slow', lambda tt, yy: math.hypot(yy[2], yy[3] - om * yy[0]) - V_ENTRY_FLOOR, -1)
             res = integrate(rhs, t, y, num.dt('entry'), t0 + t_eb,
-                            [Event('switch', switch, -1), slow, _crash_event(earth)], record=record)
-            if record:
-                phases.append(_phase_record(f'entry_burn_k{k}', res, terms))
+                            [Event('switch', switch, -1), slow, _crash_event(earth)], record=True)
+            phases.append(_phase_record(f'entry_burn_k{k}', res, terms))
             t, y = res.t_final, list(res.y_final)
             if res.event == 'slow':
                 return EntryEval(t_eb, 0.0, m_start - y[4], False, 'entry burn nulled the velocity (too long)', k_prof)
@@ -186,8 +187,14 @@ def run_entry(veh: Vehicle, earth: Earth, num: Numerics, t0: float, y0: list, t_
                     [Event('ground', lambda tt, yy: yy[0] - re, -1)], record=True)
     ph = _phase_record('aero_descent', res, terms_b)
     q_pk, h_pk = _peak_q(ph)
+    q_burn = max((float(np.max(b.q)) for b in phases if len(b.q)), default=0.0)
+    if veh.entry_q_window == 'burn_and_after' and q_burn > q_pk:
+        q_pk, h_pk = q_burn, float(phases[-1].h[-1])
+    elif veh.entry_q_window not in ('after_burn', 'burn_and_after'):
+        raise ValueError(f'unknown entry_q_window {veh.entry_q_window!r}')
     desc = Descent(rhs_b, res.t, res.y, re, ph)
-    ev = EntryEval(t_eb, q_pk, m_entry, True, 'ok', k_prof, y, t, desc, ph, h_pk, phases)
+    ev = EntryEval(t_eb, q_pk, m_entry, True, 'ok', k_prof, y, t, desc, ph, h_pk, phases if record else [])
+    ev.q_burn_max = q_burn
     return ev
 
 
@@ -242,7 +249,7 @@ def run_recovery(veh: Vehicle, earth: Earth, num: Numerics, t_meco: float, y_mec
         tg = w.get('t_eb')
         lo, hi = 0.0, None
         trial = [tg * 0.98, tg * 1.02] if tg else []
-        trial += [2.0, 5.0, 10.0, 20.0, 40.0, 80.0, 160.0]
+        trial += [2.0] + [5.0 * i for i in range(1, 25)] + [160.0]
         for tb in sorted(set(x for x in trial if x > 0)):
             ev = E(tb)
             if not ev.ok:
@@ -254,7 +261,8 @@ def run_recovery(veh: Vehicle, earth: Earth, num: Numerics, t_meco: float, y_mec
                     if e_adm.ok and e_adm.q_peak <= q_lim:
                         hi = t_adm
                         break
-                    out.status = 'infeasible_proven'
+                    # proven only when q_peak is monotone in t_eb (window = after_burn); else a search result
+                    out.status = 'infeasible_proven' if veh.entry_q_window == 'after_burn' else 'no_solution_found'
                     out.reason = (ev.reason + f'; the longest admissible burn ({t_adm:.2f} s) leaves post-burn '
                                   f'peak q = {e_adm.q_peak:.0f} Pa > q_entry_max = {q_lim:.0f} Pa')
                     return out
@@ -317,6 +325,7 @@ def run_recovery(veh: Vehicle, earth: Earth, num: Numerics, t_meco: float, y_mec
     out.landing = land
     out.t_eb, out.m_entry, out.entry_k_profile = e_star.t_eb, e_star.m_entry, e_star.k_profile
     out.q_peak_desc, out.h_qpeak = e_star.q_peak, e_star.h_qpeak
+    out.q_peak_burn = e_star.q_burn_max
     if land.status != 'feasible':
         out.status, out.reason = land.status, 'landing: ' + land.reason
         return out

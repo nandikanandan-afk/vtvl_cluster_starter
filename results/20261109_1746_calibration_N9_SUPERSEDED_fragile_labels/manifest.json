@@ -1,0 +1,80 @@
+{
+  "git_commit": "5ac7c1e95e57206c0656b16d37393865ce0e071c",
+  "python": "3.13.17",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "pandas": "3.1.0",
+  "matplotlib": "3.11.2",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "numerics_default": {
+    "step_scale": 1.0,
+    "dt_stage1": 0.25,
+    "dt_stage2": 1.0,
+    "dt_coast": 1.0,
+    "dt_entry": 0.1,
+    "dt_descent": 0.2,
+    "dt_landing": 0.05,
+    "insertion_xtol": 1e-11,
+    "fixed_point_tol_R": 1.0,
+    "fixed_point_tol_L": 0.1,
+    "fixed_point_max_iter": 40,
+    "landing_stop_speed": 1.0,
+    "landing_ignition_tol": 0.001,
+    "landing_u_scan": 11,
+    "entry_q_tol": 1.0,
+    "kick_time_bounds": [
+      2.0,
+      40.0
+    ],
+    "kick_angle_bounds": [
+      0.05,
+      12.0
+    ],
+    "kick_opt_rhobeg": 0.15,
+    "kick_opt_tol": 0.0001,
+    "kick_opt_maxfun": 80
+  },
+  "random_seeds": "none used (deterministic)",
+  "source_sha256": {
+    "vtvl\\__init__.py": "7045fb3c6c77db1261fa55ecef1ff45788ab609d5e616c233e3ac33ba947964f",
+    "vtvl\\ascent.py": "23f3693a73865fd5669641376f130f02b5393c289307479d3d4692456338e03f",
+    "vtvl\\atmosphere.py": "59d756327bb79d4d1766e7990cb1ba317bef0632226bf1d787100c7b22744849",
+    "vtvl\\calibration.py": "d7a217d8d75f7deca5b5d3c9bbcace74bd5e8efaecea8139d67ff40e49e05f47",
+    "vtvl\\config.py": "00ce0323af82e26075fba25d0c5f34c301bd96558409d9009d708109a9fe1683",
+    "vtvl\\dynamics.py": "62e1557bb61fc90614f62c3093a99ff0cf69c5525505b72b377457172af3f0b9",
+    "vtvl\\engines.py": "abcfd954c963ffc0e71bfc249d7e1c3130cf576a4f3f6b7575a3f04197203d70",
+    "vtvl\\figures.py": "96a5e5cf386f2d4a5cd4ad3c23f1ed98c968280cf415081c1614cecd1bc5f3db",
+    "vtvl\\integrate.py": "3a9648c6c34dc6677c3182aa3b1077be77881cb45b6d92cec8b2ef038dab3de4",
+    "vtvl\\landing.py": "d1a1de4a9ab455cc9637c5e60380a9b44a2c49dd464cff47cb213919153dbd24",
+    "vtvl\\params.py": "925fa9e4d9763e03e1ed279d5227cd641b9f4212a262b2e2f01557a0c7384176",
+    "vtvl\\performance.py": "ee59b1c4ad946b1045c22d7bdb863187c23bb4ad6f1b698176311bdb4d2a5e11",
+    "vtvl\\recovery.py": "984ebb960b2e9f28636ad0429f175c5f597fa22ce58ff38ea6b36d233f46a847",
+    "vtvl\\study.py": "37c2362d153f1b18162b091daa49b117b50b9800eb2f26b711a47330607e4a31",
+    "vtvl\\verification.py": "49a77d2bc8c5ad0a77a9b3117c3e2ff7d537fd4f76f509d90c50546450241f61",
+    "data\\parameters_baseline.json": "a6fa4ffb87a8e8cbc8853163be0a9526ab6a5a4aa2b0ce0022e18e1e36002df4",
+    "data\\parameters_supplement.json": "c4453d4123427c1b4b065590458a29cfc11e330099a395107fd3361ae5c28133"
+  },
+  "purpose": "N = 9 calibration protocol + exploratory preview",
+  "anchors": {
+    "expendable": 22800.0,
+    "reusable_target": 17500.0,
+    "reusable_band": [
+      17400.0,
+      18500.0
+    ]
+  },
+  "q_trials": [
+    40000.0,
+    50000.0,
+    60000.0,
+    70000.0,
+    80000.0,
+    100000.0,
+    140000.0,
+    200000.0
+  ],
+  "bases": [
+    "thrust_plus_drag",
+    "thrust_only"
+  ]
+}

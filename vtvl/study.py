@@ -83,7 +83,7 @@ def _vehicle_columns(veh, earth) -> dict:
         nonengine_kg=d.nonengine, recovery_hardware_kg=d.recovery_hardware, booster_dry_kg=veh.m_dry1,
         p1_kg=veh.p1, u_min_massflow=veh.u_min, u_min_sl_fraction=veh.u_min_sl_fraction,
         landing_tw_min_throttle_1eng_at_dry_plus_res=e.thrust(veh.u_min, P0_SEA_LEVEL, 1) / ((veh.m_dry1 + veh.m_res) * earth.g0),
-        q_entry_max_Pa=veh.q_entry_max, land_cap_basis=veh.land_cap_basis,
+        q_entry_max_Pa=veh.q_entry_max, land_cap_basis=veh.land_cap_basis, entry_q_window=veh.entry_q_window,
     )
 
 
@@ -114,6 +114,7 @@ def _payload_columns(veh, earth, r) -> dict:
                    entry_start_speed_m_s=rec.entry_start_speed, entry_burn_s=rec.t_eb, m_entry_kg=rec.m_entry,
                    entry_k_profile=';'.join(f'{t:.2f}s:k{k}' for t, k in rec.entry_k_profile),
                    q_peak_descent_Pa=rec.q_peak_desc, h_qpeak_descent_km=rec.h_qpeak / 1e3,
+                   q_peak_entry_burn_Pa=rec.q_peak_burn,
                    m_landing_kg=rec.m_landing, margin_kg=rec.margin, residual_kg=rec.residual,
                    downrange_km=rec.downrange_m / 1e3 if math.isfinite(rec.downrange_m) else math.nan)
         land = rec.landing

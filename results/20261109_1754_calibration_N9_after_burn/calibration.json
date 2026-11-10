@@ -1,0 +1,35 @@
+{
+  "note": "ASSEMBLED from calibration_expendable_cases.csv and calibration_reusable_cases.csv after the exploratory all-N preview and the burn_and_after run were deliberately stopped (deadline). Steps A/B are complete and unchanged.",
+  "step_A": {
+    "knob": "booster.ascent_cd_scale",
+    "range": [
+      0.8,
+      1.2
+    ],
+    "trials": {
+      "0.8": 23644.048121877924,
+      "1.0": 23941.648840075995,
+      "1.2": 24180.22737407847
+    },
+    "status": "anchor_not_reachable",
+    "frozen_value": 0.8,
+    "payload_at_frozen": 23644.048121877924,
+    "mismatch_pct": 3.701965446833011
+  },
+  "step_B": {
+    "thrust_only": {
+      "status": "calibrated",
+      "frozen_value": 70231.7551003192,
+      "payload_at_frozen": 17500.249214937674,
+      "reserve_at_frozen": 40349.014148370494,
+      "m_entry_kg": 30127.567221173587,
+      "m_landing_kg": 5189.6627656542805,
+      "landing_tw_min_throttle": 1.5827201923809842
+    },
+    "thrust_plus_drag": {
+      "status": "no_feasible_point_in_band",
+      "frozen_value": null,
+      "note": "feasibility non-monotone in q_entry_max; see calibration_reusable_cases.csv"
+    }
+  }
+}

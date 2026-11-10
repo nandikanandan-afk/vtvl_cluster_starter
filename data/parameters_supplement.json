@@ -42,6 +42,17 @@
     }
   },
   "recovery": {
+    "entry_q_window": {
+      "symbol": "-",
+      "value": "after_burn",
+      "units": "-",
+      "source": "prompt section 6.4.2 ('peak dynamic pressure afterward'); parameters_baseline.json recovery.entry_severity_limit_peak_q.used_for",
+      "source_type": "assumption",
+      "confidence": "medium",
+      "range": null,
+      "used_for": "Window over which q_entry_max is enforced: 'after_burn' = only the aerodynamic descent after the entry burn (literal wording, BASELINE); 'burn_and_after' = from entry-burn start to the ground, so q experienced during a long low-thrust burn also counts.",
+      "notes": "See docs/ASSUMPTIONS.md A-QENTRY / decision D5."
+    },
     "landing_accel_cap_basis": {
       "symbol": "-",
       "value": "thrust_plus_drag",

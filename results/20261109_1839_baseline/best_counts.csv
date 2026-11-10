@@ -1,0 +1,3 @@
+case,mode,evaluated,feasible,feasible_counts,infeasible_proven_counts,no_solution_counts,best_n,best_payload_kg,near_optimal_counts,best_is_boundary_of_feasible_set,second_n,second_payload_kg,gap_to_second_kg,gap_to_second_pct
+baseline,reusable,14,9,5;7;9;11;13;15;17;19;21,1;25;27,3;23,21,18808.838371391885,7;21,True,7,18653.06444244086,155.77392895102457,0.8281953721711791
+baseline_expendable,expendable,14,14,1;3;5;7;9;11;13;15;17;19;21;23;25;27,,,27,23729.56028256935,1;3;5;7;9;11;13;15;17;19;21;23;25;27,True,25,23723.20816469554,6.352117873808311,0.026768797222400647

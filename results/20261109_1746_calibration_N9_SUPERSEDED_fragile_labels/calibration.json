@@ -1,0 +1,342 @@
+{
+  "step_A": {
+    "knob": "booster.ascent_cd_scale",
+    "range": [
+      0.8,
+      1.2
+    ],
+    "trials": {
+      "0.8": 23644.048121877924,
+      "1.0": 23941.648840075995,
+      "1.2": 24180.22737407847
+    },
+    "status": "anchor_not_reachable",
+    "frozen_value": 0.8,
+    "payload_at_frozen": 23644.048121877924,
+    "mismatch_pct": 3.701965446833011
+  },
+  "step_B": {
+    "thrust_plus_drag": {
+      "trials": [
+        {
+          "q": 40000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 50000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 60000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 70000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 80000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 100000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 140000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 200000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        }
+      ],
+      "status": "no_feasible_point",
+      "frozen_value": null
+    },
+    "thrust_only": {
+      "trials": [
+        {
+          "q": 40000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 50000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 60000.0,
+          "payload": NaN,
+          "status": "infeasible_proven"
+        },
+        {
+          "q": 70000.0,
+          "payload": 17477.6761081417,
+          "status": "feasible"
+        },
+        {
+          "q": 80000.0,
+          "payload": 18101.396443017762,
+          "status": "feasible"
+        },
+        {
+          "q": 100000.0,
+          "payload": 18736.245370227192,
+          "status": "feasible"
+        },
+        {
+          "q": 140000.0,
+          "payload": 19531.551157828933,
+          "status": "feasible"
+        },
+        {
+          "q": 200000.0,
+          "payload": 20383.801148402013,
+          "status": "feasible"
+        }
+      ],
+      "status": "calibrated",
+      "frozen_value": 70233.51418416851,
+      "payload_at_frozen": 17500.51157157005,
+      "reserve_at_frozen": 40308.30063698424,
+      "tag": "calib_reusable_thrust_only_refine"
+    }
+  },
+  "step_D_preview": [
+    {
+      "basis": "thrust_plus_drag",
+      "n": 1,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=0.000 s: drag D/m=0.00 g plus one engine at u_min T/m=9.23 g exceeds the 4.00 g cap (m=54.76 t, h=70.0 km); the longest admissible burn (0.00 s) leaves post-burn peak q = 725810 Pa > q_entry_max ="
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 3,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=18.395 s: drag D/m=0.15 g plus one engine at u_min T/m=3.85 g exceeds the 4.00 g cap (m=43.74 t, h=38.1 km); the longest admissible burn (18.40 s) leaves post-burn peak q = 325981 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 5,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=29.174 s: drag D/m=1.53 g plus one engine at u_min T/m=2.47 g exceeds the 4.00 g cap (m=40.70 t, h=21.7 km); the longest admissible burn (29.17 s) leaves post-burn peak q = 232105 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 7,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=28.327 s: drag D/m=2.38 g plus one engine at u_min T/m=1.62 g exceeds the 4.00 g cap (m=44.40 t, h=20.3 km); the longest admissible burn (28.33 s) leaves post-burn peak q = 325186 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 9,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=34.651 s: drag D/m=2.59 g plus one engine at u_min T/m=1.41 g exceeds the 4.00 g cap (m=39.46 t, h=17.0 km); the longest admissible burn (34.65 s) leaves post-burn peak q = 195981 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 11,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=37.944 s: drag D/m=2.80 g plus one engine at u_min T/m=1.20 g exceeds the 4.00 g cap (m=37.73 t, h=14.8 km); the longest admissible burn (37.94 s) leaves post-burn peak q = 155160 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 13,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=37.584 s: drag D/m=3.00 g plus one engine at u_min T/m=1.00 g exceeds the 4.00 g cap (m=38.23 t, h=14.4 km); the longest admissible burn (37.58 s) leaves post-burn peak q = 161551 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 15,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=34.340 s: drag D/m=3.18 g plus one engine at u_min T/m=0.82 g exceeds the 4.00 g cap (m=40.62 t, h=15.6 km); the longest admissible burn (34.34 s) leaves post-burn peak q = 210584 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 17,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=32.006 s: drag D/m=3.32 g plus one engine at u_min T/m=0.68 g exceeds the 4.00 g cap (m=42.94 t, h=16.6 km); the longest admissible burn (32.01 s) leaves post-burn peak q = 264406 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 19,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=30.550 s: drag D/m=3.41 g plus one engine at u_min T/m=0.59 g exceeds the 4.00 g cap (m=44.81 t, h=17.2 km); the longest admissible burn (30.55 s) leaves post-burn peak q = 311260 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 21,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=29.586 s: drag D/m=3.49 g plus one engine at u_min T/m=0.51 g exceeds the 4.00 g cap (m=46.30 t, h=17.6 km); the longest admissible burn (29.59 s) leaves post-burn peak q = 350552 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 23,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=28.908 s: drag D/m=3.54 g plus one engine at u_min T/m=0.46 g exceeds the 4.00 g cap (m=47.51 t, h=17.9 km); the longest admissible burn (28.91 s) leaves post-burn peak q = 383559 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 25,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=28.407 s: drag D/m=3.59 g plus one engine at u_min T/m=0.41 g exceeds the 4.00 g cap (m=48.53 t, h=18.1 km); the longest admissible burn (28.41 s) leaves post-burn peak q = 411551 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_plus_drag",
+      "n": 27,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=28.025 s: drag D/m=3.62 g plus one engine at u_min T/m=0.38 g exceeds the 4.00 g cap (m=49.40 t, h=18.3 km); the longest admissible burn (28.02 s) leaves post-burn peak q = 435563 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 1,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=0.000 s: drag D/m=0.00 g plus one engine at u_min T/m=9.23 g exceeds the 4.00 g cap (m=54.76 t, h=70.0 km); the longest admissible burn (0.00 s) leaves post-burn peak q = 725810 Pa > q_entry_max ="
+    },
+    {
+      "basis": "thrust_only",
+      "n": 3,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=18.395 s: drag D/m=0.15 g plus one engine at u_min T/m=3.85 g exceeds the 4.00 g cap (m=43.74 t, h=38.1 km); the longest admissible burn (18.40 s) leaves post-burn peak q = 325981 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 5,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=29.174 s: drag D/m=1.53 g plus one engine at u_min T/m=2.47 g exceeds the 4.00 g cap (m=40.70 t, h=21.7 km); the longest admissible burn (29.17 s) leaves post-burn peak q = 232105 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 7,
+      "status": "feasible",
+      "payload": 18652.512971600554,
+      "q_entry": 70233.51418416851,
+      "reason": "ok"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 9,
+      "status": "feasible",
+      "payload": 17500.568351558162,
+      "q_entry": 70233.51418416851,
+      "reason": "ok"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 11,
+      "status": "feasible",
+      "payload": 16883.328192820925,
+      "q_entry": 70233.51418416851,
+      "reason": "ok"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 13,
+      "status": "feasible",
+      "payload": 16995.87939397298,
+      "q_entry": 70233.51418416851,
+      "reason": "ok"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 15,
+      "status": "feasible",
+      "payload": 17933.79333318518,
+      "q_entry": 70233.51418416851,
+      "reason": "ok"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 17,
+      "status": "feasible",
+      "payload": 18216.69028764073,
+      "q_entry": 70233.51418416851,
+      "reason": "ok"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 19,
+      "status": "feasible",
+      "payload": 18475.741687331527,
+      "q_entry": 70233.51418416851,
+      "reason": "ok"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 21,
+      "status": "feasible",
+      "payload": 18808.84825917595,
+      "q_entry": 70233.51418416851,
+      "reason": "ok"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 23,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=28.908 s: drag D/m=3.54 g plus one engine at u_min T/m=0.46 g exceeds the 4.00 g cap (m=47.51 t, h=17.9 km); the longest admissible burn (28.91 s) leaves post-burn peak q = 383559 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 25,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=28.407 s: drag D/m=3.59 g plus one engine at u_min T/m=0.41 g exceeds the 4.00 g cap (m=48.53 t, h=18.1 km); the longest admissible burn (28.41 s) leaves post-burn peak q = 411551 Pa > q_entry_max"
+    },
+    {
+      "basis": "thrust_only",
+      "n": 27,
+      "status": "infeasible_proven",
+      "payload": NaN,
+      "q_entry": 70233.51418416851,
+      "reason": "no payload-feasible kick found; last: recovery (outer iteration 1, R = 30000 kg): entry rule limit at t=28.025 s: drag D/m=3.62 g plus one engine at u_min T/m=0.38 g exceeds the 4.00 g cap (m=49.40 t, h=18.3 km); the longest admissible burn (28.02 s) leaves post-burn peak q = 435563 Pa > q_entry_max"
+    }
+  ],
+  "wall_time_s": 353.59830219997093
+}

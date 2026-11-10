@@ -23,6 +23,7 @@ from .ascent import Insertion, Kick, Stage1Result, run_stage1, run_stage2, solve
 from .config import Earth, Numerics, Vehicle
 from .recovery import RecoveryResult, run_recovery
 
+R_RETRY = (15000.0, 25000.0, 35000.0, 45000.0, 55000.0, 70000.0)   # kg, trial reserves before a verdict
 STEER_GUESSES = ((0.3, 0.3), (0.0, -0.3), (0.5, 1.0), (-0.1, -0.6), (0.8, 1.5))
 
 
@@ -109,6 +110,7 @@ def evaluate_payload(veh: Vehicle, earth: Earth, num: Numerics, kick: Kick, warm
         return ok, why, s1, ins, L2, steer2, r
 
     converged = False
+    retried = False
     hist = out.history
     pts = []   # (R, h) for the secant
     it = 0
@@ -128,6 +130,32 @@ def evaluate_payload(veh: Vehicle, earth: Earth, num: Numerics, kick: Kick, warm
                 if abs(R - (Rg + hg)) > 1.0:
                     R = 0.5 * (R + Rg + hg)
                     continue
+            # No feasible iterate yet. Recovery feasibility depends on the (unknown) reserve, so
+            # before any verdict try a spread of starting reserves; a "proven" label requires every
+            # trial reserve to fail with a proven reason.
+            if not retried:
+                retried = True
+                fails = [(R, rec)]
+                found = False
+                for Rt in R_RETRY:
+                    if abs(Rt - R) < 1.0:
+                        continue
+                    ok2, why2, s1b, insb, Lb, stb, recb = stage(Rt, L, steer)
+                    if not ok2:
+                        continue
+                    if recb.status == 'feasible':
+                        R, L, steer, found = Rt, Lb, stb, True
+                        break
+                    fails.append((Rt, recb))
+                if found:
+                    continue
+                proven = all(f[1].status == 'infeasible_proven' for f in fails)
+                out.status = 'infeasible_proven' if proven else 'no_solution_found'
+                rng = f'{min(f[0] for f in fails)/1e3:.0f}-{max(f[0] for f in fails)/1e3:.0f} t'
+                out.reason = (f'recovery infeasible at every trial reserve R = {rng} '
+                              f'({len(fails)} trials); at R = {R:.0f} kg: {rec.reason}')
+                out.iterations, out.s1, out.rec = it, s1, rec
+                return out
             out.status = rec.status
             out.reason = f'recovery (outer iteration {it}, R = {R:.0f} kg): {rec.reason}'
             out.iterations, out.s1, out.rec = it, s1, rec
@@ -232,6 +260,29 @@ def optimize_kick(veh: Vehicle, earth: Earth, num: Numerics, kick0: Kick, warm: 
                    constraints=[{'type': 'ineq', 'fun': g}],
                    bounds=[(0.0, 1.0), (0.0, 1.0)],
                    options={'rhobeg': num.kick_opt_rhobeg, 'tol': num.kick_opt_tol, 'maxiter': num.kick_opt_maxfun})
+    if best[0] is None:
+        # COBYLA can stall a few Pa above the max-Q limit. Before giving up, take the payload-feasible
+        # kick with the lowest q_peak and bisect its kick angle upward (larger delta lowers q_peak)
+        # until q_peak <= q_max. Same logic for every N; a numerical-tolerance repair, not a model change.
+        cands = [(t[3], t[0], t[1]) for t in trace if t[4] == 'feasible' and math.isfinite(t[3])]
+        if cands:
+            q0, t_k, d0 = min(cands)
+            if q0 <= veh.q_max * 1.02:
+                lo, hi = d0, d0 + 0.5
+                for _ in range(30):
+                    mid = 0.5 * (lo + hi)
+                    r = evaluate_payload(veh, earth, num, Kick(t_k, mid), w.copy())
+                    trace.append((t_k, mid, r.payload, r.s1.q_peak if r.s1 else math.nan, r.status))
+                    if r.status == 'feasible' and r.s1.q_peak <= veh.q_max:
+                        hi = mid
+                        if best[0] is None or r.payload > best[0].payload:
+                            best[0] = r
+                        if veh.q_max - r.s1.q_peak < 1e-4 * veh.q_max:
+                            break
+                    else:
+                        lo = mid
+                        if r.status != 'feasible':
+                            break
     if best[0] is None:
         # No evaluated kick satisfied both the payload solve and q_peak <= q_max.
         r = ev(res.x)
