@@ -233,7 +233,10 @@ def optimize_kick(veh: Vehicle, earth: Earth, num: Numerics, kick0: Kick, warm: 
         if key not in cache:
             k = to_k(x)
             wl = w.copy()
-            r = evaluate_payload(veh, earth, num, k, wl)
+            try:
+                r = evaluate_payload(veh, earth, num, k, wl)
+            except Exception as exc:   # a failed trial is a failed trial, not a failed case
+                r = PayloadEval('no_solution_found', f'exception in trial: {exc!r}', k)
             if r.status == 'feasible':
                 # carry the successful warm start forward
                 w.L, w.R, w.steer, w.rec = wl.L, wl.R, wl.steer, wl.rec

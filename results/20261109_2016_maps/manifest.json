@@ -1,0 +1,84 @@
+{
+  "git_commit": "9c4b071eb65f98741a4888090fe05ce840f0629b-dirty",
+  "python": "3.13.17",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "pandas": "3.1.0",
+  "matplotlib": "3.11.2",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "numerics_default": {
+    "step_scale": 1.0,
+    "dt_stage1": 0.25,
+    "dt_stage2": 1.0,
+    "dt_coast": 1.0,
+    "dt_entry": 0.1,
+    "dt_descent": 0.2,
+    "dt_landing": 0.05,
+    "insertion_xtol": 1e-11,
+    "fixed_point_tol_R": 1.0,
+    "fixed_point_tol_L": 0.1,
+    "fixed_point_max_iter": 40,
+    "landing_stop_speed": 1.0,
+    "landing_ignition_tol": 0.001,
+    "landing_u_scan": 11,
+    "entry_q_tol": 1.0,
+    "kick_time_bounds": [
+      2.0,
+      40.0
+    ],
+    "kick_angle_bounds": [
+      0.05,
+      12.0
+    ],
+    "kick_opt_rhobeg": 0.15,
+    "kick_opt_tol": 0.0001,
+    "kick_opt_maxfun": 80
+  },
+  "random_seeds": "none used (deterministic)",
+  "source_sha256": {
+    "vtvl\\__init__.py": "7045fb3c6c77db1261fa55ecef1ff45788ab609d5e616c233e3ac33ba947964f",
+    "vtvl\\ascent.py": "23f3693a73865fd5669641376f130f02b5393c289307479d3d4692456338e03f",
+    "vtvl\\atmosphere.py": "59d756327bb79d4d1766e7990cb1ba317bef0632226bf1d787100c7b22744849",
+    "vtvl\\calibration.py": "d7a217d8d75f7deca5b5d3c9bbcace74bd5e8efaecea8139d67ff40e49e05f47",
+    "vtvl\\config.py": "bb8c5e726293ad70f3b8e8c9ea9527dfa57ec141cf1dff28107a40bbaca4ca97",
+    "vtvl\\dynamics.py": "62e1557bb61fc90614f62c3093a99ff0cf69c5525505b72b377457172af3f0b9",
+    "vtvl\\engines.py": "abcfd954c963ffc0e71bfc249d7e1c3130cf576a4f3f6b7575a3f04197203d70",
+    "vtvl\\figures.py": "96a5e5cf386f2d4a5cd4ad3c23f1ed98c968280cf415081c1614cecd1bc5f3db",
+    "vtvl\\integrate.py": "3a9648c6c34dc6677c3182aa3b1077be77881cb45b6d92cec8b2ef038dab3de4",
+    "vtvl\\landing.py": "1ad663c353732ca325fcad9d9ccfe42573b34cb419667e7d9f2f4fed67fe625d",
+    "vtvl\\params.py": "925fa9e4d9763e03e1ed279d5227cd641b9f4212a262b2e2f01557a0c7384176",
+    "vtvl\\performance.py": "7ed8691a59bf5e598f1964f4a62cf1050af7d9fea84aea94c90eddd2c627dd0c",
+    "vtvl\\recovery.py": "94ccb6e34dbd5745a990067b05da71385ac26cb24bdfd4b525bf82397dc42882",
+    "vtvl\\study.py": "1d868e3c554cc4c6e94c2d0f0f0ce52f43c7278ae7f70bf796a6b3f2076eeb96",
+    "vtvl\\verification.py": "49a77d2bc8c5ad0a77a9b3117c3e2ff7d537fd4f76f509d90c50546450241f61",
+    "data\\parameters_baseline.json": "a6fa4ffb87a8e8cbc8853163be0a9526ab6a5a4aa2b0ce0022e18e1e36002df4",
+    "data\\parameters_supplement.json": "e853d947b0aa4e1b38d13174fff6daf7e444044297a10b27d7358539139ca1f1"
+  },
+  "mode": "maps",
+  "calibration_dir": "results\\20261109_1754_calibration_N9_after_burn",
+  "frozen_calibration": {
+    "booster.ascent_cd_scale": 0.8,
+    "recovery.entry_severity_limit_peak_q": 70231.7551003192,
+    "recovery.landing_accel_cap_basis": "thrust_only",
+    "recovery.entry_q_window": "after_burn"
+  },
+  "landing_cap_basis": "thrust_only",
+  "counts": [
+    3,
+    5,
+    7,
+    9,
+    13,
+    17,
+    21,
+    25
+  ],
+  "case_count": 96,
+  "elapsed_seconds": 4100.5068382998,
+  "near_optimal_band_fraction": 0.01,
+  "kick_start_source": "results\\20261109_1839_baseline",
+  "rerun_after_bugfix": {
+    "count": 3,
+    "note": "exception-killed cases rerun after fixing landing bracket fallback and a_max_land>=4 stop-speed guard"
+  }
+}

@@ -51,7 +51,7 @@ def sensitivity_cases(base: dict) -> list[tuple[str, dict, dict]]:
     for label, key, vals in oat:
         for v in vals:
             num = {}
-            if key == 'recovery.landing_max_accel_g' and v > 4.0:
+            if key == 'recovery.landing_max_accel_g' and v >= 4.0:
                 num = {'dt_landing': 0.025}   # keep the stop speed above the RK4 chatter level
             out.append((f'{label}={v:g}', {**base, key: v}, num))
     out.append(('mass_model=akin_scaled', {**base, 'engine.engine_mass_model': 'akin_scaled'}, {}))

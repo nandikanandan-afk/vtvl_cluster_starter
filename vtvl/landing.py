@@ -285,7 +285,22 @@ def solve_k(veh: Vehicle, earth: Earth, num: Numerics, desc: Descent, m_desc: fl
                 if gfun(a_) < 0 < gfun(b_):
                     ua, ub = a_, b_
                     break
-        u_star = brentq(gfun, ua, ub, xtol=1e-7, rtol=1e-12, maxiter=100)
+        try:
+            u_star = brentq(gfun, ua, ub, xtol=1e-7, rtol=1e-12, maxiter=100)
+        except ValueError:
+            # Bracket signs disagreed (a warm ignition-altitude guess can land on a different root of the
+            # ignition equation). Fall back to plain bisection on feasibility over the full [u_min, u_max]
+            # with no warm start: u_min is feasible (checked above), u_max is not.
+            lo_u, hi_u = veh.u_min, veh.u_max
+            for _ in range(40):
+                mid = 0.5 * (lo_u + hi_u)
+                if feas(evaluate(mid, None)):
+                    lo_u = mid
+                else:
+                    hi_u = mid
+                if hi_u - lo_u < 1e-7:
+                    break
+            u_star = lo_u + 1e-7   # the -1e-7 below returns it to the last feasible throttle
         u_star = u_star - 1e-7  # stay on the feasible side of the cap
         e_star = evaluate(u_star, cache.get('h'))
         if not feas(e_star):

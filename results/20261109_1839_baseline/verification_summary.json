@@ -1,0 +1,19 @@
+{
+  "cases": 9,
+  "max_abs_insertion_dr_m": 0.9420269820839167,
+  "max_abs_insertion_vr_m_s": 0.001927688436847541,
+  "max_abs_insertion_dvt_m_s": 0.0020987753805457032,
+  "max_abs_replay_insertion_dr_m": 0.9445065129548311,
+  "max_abs_replay_insertion_vr_m_s": 0.0020167257758121337,
+  "max_abs_replay_insertion_dvt_m_s": 0.002106614559124864,
+  "all_touchdowns_found": true,
+  "max_replay_touchdown_speed_m_s": 1.0003423168599497,
+  "tolerances": {
+    "insertion": {
+      "dr": 100.0,
+      "vr": 1.0,
+      "dvt": 1.0
+    },
+    "payload_kg": 10.0
+  }
+}

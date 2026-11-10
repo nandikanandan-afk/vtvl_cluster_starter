@@ -1,0 +1,4 @@
+n_engines,baseline_payload_kg,halved_step_payload_kg,step_halving_change_kg,step_halving_pass,robust_payloads_kg,robust_statuses,robust_spread_incl_baseline_kg,robust_pass,robust_kicks
+5,18171.56255255826,18167.085364821854,-4.477187736407359,True,,infeasible_proven;no_solution_found;infeasible_proven,,False,"(11.700,0.8000);(19.700,2.0000);(30.700,4.0000)"
+9,17498.34632285289,17499.303369625293,0.9570467724042828,True,17500.0;17492.7,infeasible_proven;feasible;feasible,7.276274627696694,False,"(11.700,0.8000);(11.792,1.9964);(21.304,7.2672)"
+21,18808.838371391885,18807.18648621085,-1.6518851810360502,True,,infeasible_proven;no_solution_found;infeasible_proven,,False,"(11.700,0.8000);(19.700,2.0000);(30.700,4.0000)"

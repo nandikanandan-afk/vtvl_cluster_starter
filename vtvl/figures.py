@@ -104,14 +104,15 @@ def fig_payload(base, best, out, caps):
     ax.set_xticks(d['n_engines'].values)
     ax.set_xlabel('Engine count N')
     ax.set_ylabel('Max payload to 200 km circular (t)')
-    ax.legend(loc='lower right', fontsize=7)
+    ax.legend(loc='center right', fontsize=7)
     _save(fig, out, 'fig3_payload_vs_N',
           'PRIMARY RESULT. Maximum payload to a 200 km, 28.5° circular orbit vs engine count, re-optimised for every N '
           '(simulation result). Shaded: within 1 % of the best; letters: P infeasible (proven), N no solution found.', caps)
 
 
-def fig_feasibility(maps: pd.DataFrame, out, caps):
-    sub = maps[maps['tag'].str.startswith('map_umin_phi') & maps['tag'].str.contains('phi=0.07')]
+def fig_feasibility(base: pd.DataFrame, sens: pd.DataFrame, out, caps):
+    sub = pd.concat([base[base['mode'] == 'reusable'], sens[sens['tag'].astype(str).str.startswith('u_min=')]])
+    sub = sub[sub['n_engines'].isin([3, 5, 7, 9, 13, 17, 21, 25])]
     if sub.empty:
         return
     us = sorted(sub['u_min_sl_fraction'].unique())
@@ -133,7 +134,7 @@ def fig_feasibility(maps: pd.DataFrame, out, caps):
     ax.legend(handles, ['F feasible', 'P infeasible (proven)', 'N no solution found'], loc='upper center',
               bbox_to_anchor=(0.5, 1.22), ncol=3, fontsize=7)
     _save(fig, out, 'fig4_feasibility_umin_vs_N',
-          'Recovery feasibility vs minimum throttle and engine count (baseline β, φ; simulation result). '
+          'Recovery/ascent feasibility vs minimum throttle and engine count at the tested N (baseline β, φ; simulation result). '
           'P cells carry an analytic reason in cases.csv; N cells are solver/search failures, not proofs.', caps)
 
 
@@ -146,8 +147,8 @@ def fig_sensitivity(sens: pd.DataFrame, sbest: pd.DataFrame, maps_best: pd.DataF
     for i, r in rows.iterrows():
         y = len(rows) - 1 - i
         if isinstance(r.get('near_optimal_counts'), str) and r['near_optimal_counts']:
-            band = [int(x) for x in str(r['near_optimal_counts']).split(';')]
-            ax.plot([min(band), max(band)], [y, y], color=S1, lw=4, alpha=0.35, solid_capstyle='round')
+            band = [int(float(x)) for x in str(r['near_optimal_counts']).split(';')]
+            ax.plot(band, [y] * len(band), 'o', mfc='none', mec=S1, ms=9, mew=1.5)
         if not pd.isna(r.get('best_n')):
             ax.plot([r['best_n']], [y], 'o', color=S1, ms=5)
         else:
@@ -155,9 +156,9 @@ def fig_sensitivity(sens: pd.DataFrame, sbest: pd.DataFrame, maps_best: pd.DataF
     ax.set_yticks(range(len(rows)), list(rows['case'])[::-1], fontsize=7)
     ax.set_xticks(range(1, 28, 2))
     ax.set_xlim(0, 28)
-    ax.set_xlabel('Best engine count (dot) and counts within 1 % of best payload (bar)')
+    ax.set_xlabel('Best engine count (filled) and every tested count within 1 % of best payload (hollow)')
     _save(fig, out, 'fig5a_best_N_sensitivity',
-          'Best engine count under one-at-a-time sensitivity (simulation result); bars show every N within 1 % of the best payload.', caps)
+          'Best engine count under one-at-a-time sensitivity (simulation result); hollow markers show every tested N within 1 % of the best payload.', caps)
     if maps_best is not None and len(maps_best):
         fig, axs = plt.subplots(1, 2, figsize=(6.6, 2.6))
         for ax, key, lab in ((axs[0], 'beta', 'β'), (axs[1], 'phi', 'φ')):
@@ -217,7 +218,7 @@ def fig_trajectories(run: Path, base, out, caps):
         a.set_xlabel('Time after MECO (s)')
     axs[0, 0].legend(fontsize=7)
     if notes:
-        axs[0, 1].text(0.98, 0.95, '; '.join(notes), transform=axs[0, 1].transAxes, ha='right', va='top', fontsize=7, color=INK2)
+        axs[1, 1].text(0.98, 0.55, '; '.join(notes), transform=axs[1, 1].transAxes, ha='right', va='top', fontsize=7, color=INK2)
     _save(fig, out, 'fig6_recovery_trajectories',
           'Example recovery trajectories from MECO to touchdown (simulation result): coast, entry burn, aerodynamic '
           'descent, landing burn. Propellant is shown relative to the on-board margin + residual at touchdown.', caps)
@@ -242,9 +243,9 @@ def main():
     if args.maps:
         maps = pd.read_csv(args.maps / 'cases.csv')
         mbest = pd.read_csv(args.maps / 'best_counts.csv')
-        fig_feasibility(maps, out, caps)
     if args.sensitivity:
         sens = pd.read_csv(args.sensitivity / 'cases.csv')
+        fig_feasibility(base, sens, out, caps)
         sbest = pd.read_csv(args.sensitivity / 'best_counts.csv')
         fig_sensitivity(sens, sbest, mbest, best[best['case'] == 'baseline'], out, caps)
     (out / 'captions.md').write_text('# Figure captions\n\n' + '\n'.join(caps) + '\n', encoding='utf-8')

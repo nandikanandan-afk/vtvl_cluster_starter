@@ -1,3 +1,5 @@
+> **v0.2 NOTICE:** the text below describes the superseded v0.1 ideal-delta-v proxy. The current model, assumptions and results are documented in `docs/AUDIT.md`, `docs/ASSUMPTIONS.md`, `docs/VERIFICATION.md`, `docs/ABSTRACT_MATERIAL.md` and `results/*/results_summary.md`. Run: `python run_calibration.py`, `python run_study.py --mode baseline|sensitivity|maps ...`, `python verify_results.py <run>`, `python -m vtvl.figures <run>`, `python make_summary.py ...`. v0.1 outputs are in `results/legacy_v0_1/`.
+
 # VTVL engine-cluster trade: runnable research starter
 
 **Status: conceptual preliminary-design model, not a validated Falcon 9 model,
