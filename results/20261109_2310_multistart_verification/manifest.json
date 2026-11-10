@@ -1,0 +1,44 @@
+{
+  "baseline_dir": "results\\20261109_1839_baseline",
+  "baseline_mode": "baseline",
+  "frozen_calibration": {
+    "booster.ascent_cd_scale": 0.8,
+    "recovery.entry_severity_limit_peak_q": 70231.7551003192,
+    "recovery.landing_accel_cap_basis": "thrust_only",
+    "recovery.entry_q_window": "after_burn"
+  },
+  "engine_counts": [
+    7,
+    9,
+    21
+  ],
+  "initial_guess_count_per_case": 6,
+  "nearby_kick_offsets_s_deg": [
+    [
+      -0.25,
+      0.0
+    ],
+    [
+      0.25,
+      0.0
+    ],
+    [
+      0.0,
+      -0.05
+    ],
+    [
+      0.0,
+      0.05
+    ]
+  ],
+  "original_default_guess_s_deg": [
+    9.85,
+    1.31
+  ],
+  "payload_difference_threshold_kg": 10.0,
+  "failure_classification": {
+    "physical_infeasibility_proven": "status=infeasible_proven",
+    "optimizer_or_payload_solver_failure": "status is not feasible and not infeasible_proven",
+    "optimizer_non_success_with_feasible_candidate": "feasible payload candidate, but COBYLA success is false"
+  }
+}

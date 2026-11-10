@@ -52,7 +52,8 @@ def run_case(job: dict) -> dict:
         if job.get('optimize', True):
             ko = optimize_kick(veh, earth, num, kick0, warm)
             best = ko.best
-            row.update(kick_evaluations=ko.evaluations, kick_message=ko.message)
+            row.update(kick_evaluations=ko.evaluations, kick_message=ko.message,
+                       optimizer_success=ko.optimizer_success, optimizer_status=ko.optimizer_status)
             kick = best.kick
         else:
             kick, best = kick0, None

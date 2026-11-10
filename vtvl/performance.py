@@ -210,6 +210,8 @@ class KickOpt:
     evaluations: int
     message: str
     trace: list = field(default_factory=list)   # (t_kick, delta, payload, q_peak, status)
+    optimizer_success: bool = False
+    optimizer_status: int = -1
 
 
 def _scale(num: Numerics):
@@ -297,5 +299,5 @@ def optimize_kick(veh: Vehicle, earth: Earth, num: Numerics, kick0: Kick, warm: 
         else:
             fail.status = r.status if r.status != 'feasible' else 'no_solution_found'
             fail.reason = f'no payload-feasible kick found; last: {r.reason} (COBYLA: {res.message})'
-        return KickOpt(fail, len(cache), fail.reason, trace)
-    return KickOpt(best[0], len(cache), str(res.message), trace)
+        return KickOpt(fail, len(cache), fail.reason, trace, bool(res.success), int(res.status))
+    return KickOpt(best[0], len(cache), str(res.message), trace, bool(res.success), int(res.status))
